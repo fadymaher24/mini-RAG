@@ -31,3 +31,9 @@ Lawyer RAG System is a Retrieval-Augmented Generation (RAG) system designed to a
 ## Usage
 
 1. Prepare your legal documents and add them to the knowledge base.
+
+## Set up your environment variables
+
+```bash
+cp .env.example .env
+```
