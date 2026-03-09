@@ -16,4 +16,4 @@ class Settings(BaseSettings):
 
 
 def get_settings():
-    return Settings() # type: ignore
+    return Settings()  # type: ignore
