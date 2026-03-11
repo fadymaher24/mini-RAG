@@ -1,6 +1,6 @@
-# Lawyer-RAG-System
+# MINI-RAG-System
 
-Lawyer RAG System is a Retrieval-Augmented Generation (RAG) system designed to assist lawyers in retrieving relevant legal information and generating responses based on that information. The system combines natural language processing (NLP) techniques with a knowledge base of legal documents to provide accurate and contextually relevant answers to legal queries.
+mini RAG System is a Retrieval-Augmented Generation (RAG) system designed to assist lawyers in retrieving relevant legal information and generating responses based on that information. The system combines natural language processing (NLP) techniques with a knowledge base of legal documents to provide accurate and contextually relevant answers to legal queries.
 
 ## Requirements
 
@@ -37,3 +37,7 @@ Lawyer RAG System is a Retrieval-Augmented Generation (RAG) system designed to a
 ```bash
 cp .env.example .env
 ```
+
+## run the app
+
+uvicorn main:app --reload --host 0.0.0.0 --port 5000
