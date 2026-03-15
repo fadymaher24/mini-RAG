@@ -38,6 +38,28 @@ mini RAG System is a Retrieval-Augmented Generation (RAG) system designed to ass
 cp .env.example .env
 ```
 
+Use a Mongo connection URL with credentials and auth source, for example:
+
+```env
+MONGODB_URL="mongodb://admin:admin@localhost:27007/?authSource=admin"
+MONGODB_DATABASE="mini_rag"
+```
+
+## Run MongoDB (Docker)
+
+From the `docker` folder:
+
+```bash
+docker compose up -d
+```
+
+If you changed `MONGO_INITDB_ROOT_USERNAME` or `MONGO_INITDB_ROOT_PASSWORD` after first startup, recreate the volume so Mongo can re-initialize the root user:
+
+```bash
+docker compose down -v
+docker compose up -d
+```
+
 ## run the app
 
 uvicorn main:app --reload --host 0.0.0.0 --port 5000
