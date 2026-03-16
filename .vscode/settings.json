@@ -1,9 +1,11 @@
 {
+  "python.defaultInterpreterPath": "/home/fadymaher/.conda/envs/lawyer-rag-app/bin/python",
+  "python.terminal.activateEnvironment": true,
+  "python.terminal.activateEnvInCurrentTerminal": true,
   "[python]": {
     "editor.defaultFormatter": "ms-python.black-formatter",
     "editor.formatOnSave": true
   },
-  "postman.settings.dotenv-detection-notification-visibility": false,
   "python-envs.defaultEnvManager": "ms-python.python:conda",
   "python-envs.defaultPackageManager": "ms-python.python:conda"
 }

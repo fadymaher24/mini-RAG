@@ -3,6 +3,7 @@ from typing import Optional
 from bson.objectid import ObjectId
 from datetime import datetime
 
+
 class Asset(BaseModel):
     id: Optional[ObjectId] = Field(None, alias="_id")
     asset_project_id: ObjectId
@@ -20,18 +21,13 @@ class Asset(BaseModel):
 
         return [
             {
-                "key": [
-                    ("asset_project_id", 1)
-                ],
+                "key": [("asset_project_id", 1)],
                 "name": "asset_project_id_index_1",
-                "unique": False
+                "unique": False,
             },
             {
-                "key": [
-                    ("asset_project_id", 1),
-                    ("asset_name", 1)
-                ],
+                "key": [("asset_project_id", 1), ("asset_name", 1)],
                 "name": "asset_project_id_name_index_1",
-                "unique": True
+                "unique": True,
             },
         ]
