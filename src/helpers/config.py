@@ -1,6 +1,5 @@
 from pydantic_settings import BaseSettings, SettingsConfigDict
 
-
 class Settings(BaseSettings):
 
     APP_NAME: str
@@ -14,8 +13,8 @@ class Settings(BaseSettings):
     MONGODB_URL: str
     MONGODB_DATABASE: str
 
-    model_config = SettingsConfigDict(env_file=".env", extra="ignore")
-
+    class Config:
+        env_file = ".env"
 
 def get_settings():
-    return Settings()  # type: ignore
+    return Settings()
