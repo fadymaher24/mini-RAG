@@ -43,6 +43,9 @@ class Settings(BaseSettings):
     VECTOR_DB_PATH: str = "qdrant_db"
     VECTOR_DB_DISTANCE_METHOD: str = "cosine"
 
+    DEFAULT_LANG: str = "en"
+    PRIMARY_LANG: str = "en"
+
 
 def get_settings():
     return Settings()
