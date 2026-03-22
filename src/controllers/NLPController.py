@@ -96,6 +96,8 @@ class NLPController(BaseController):
 
     def answer_rag_question(self, project: Project, query: str, limit: int = 10):
 
+        answer, full_prompt, chat_history = None, None, None
+
         # step1: retrieve related documents
         retrieved_documents = self.search_vector_db_collection(
             project=project,
@@ -104,12 +106,12 @@ class NLPController(BaseController):
         )
 
         if not retrieved_documents or len(retrieved_documents) == 0:
-            return None
+            return answer, full_prompt, chat_history
 
-        # step2: constuct LLM prompt
+        # step2: Construct LLM prompt
         system_prompt = self.template_parser.get("rag", "system_prompt")
 
-        document_prompts = "\n".join(
+        documents_prompts = "\n".join(
             [
                 self.template_parser.get(
                     "rag",
@@ -123,14 +125,9 @@ class NLPController(BaseController):
             ]
         )
 
-        footer_prompt = self.template_parser.get(
-            "rag",
-            "footer_prompt",
-            {
-                "query": query,
-            },
-        )
+        footer_prompt = self.template_parser.get("rag", "footer_prompt")
 
+        # step3: Construct Generation Client Prompts
         chat_history = [
             self.generation_client.construct_prompt(
                 prompt=system_prompt,
@@ -138,10 +135,11 @@ class NLPController(BaseController):
             )
         ]
 
-        full_prompt = "\n\n".join([document_prompts, footer_prompt])
+        full_prompt = "\n\n".join([documents_prompts, footer_prompt])
 
+        # step4: Retrieve the Answer
         answer = self.generation_client.generate_text(
-            prompt=full_prompt,
-            chat_history=chat_history,
+            prompt=full_prompt, chat_history=chat_history
         )
+
         return answer, full_prompt, chat_history
