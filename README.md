@@ -62,4 +62,6 @@ docker compose up -d
 
 ## run the app
 
-uvicorn main:app --reload --host 0.0.0.0 --port 5000
+```bash
+python -m uvicorn main:app --reload --host 0.0.0.0 --port 5000
+```
