@@ -74,12 +74,16 @@ class OpenAIProvider(LLMInterface):
             self.construct_prompt(prompt=prompt, role=OpenAIEnums.USER.value)
         )
 
-        response = self.client.chat.completions.create(
-            model=self.generation_model_id,
-            messages=chat_history,
-            max_tokens=max_output_tokens,
-            temperature=temperature,
-        )
+        try:
+            response = self.client.chat.completions.create(
+                model=self.generation_model_id,
+                messages=chat_history,
+                max_tokens=max_output_tokens,
+                temperature=temperature,
+            )
+        except Exception as e:
+            self.logger.error(f"Error while generating text with OpenAI: {e}")
+            return None
 
         if (
             not response
@@ -90,7 +94,40 @@ class OpenAIProvider(LLMInterface):
             self.logger.error("Error while generating text with OpenAI")
             return None
 
-        return response.choices[0].message.content
+        message = response.choices[0].message
+
+        # OpenAI-compatible providers (for example Ollama) can return content
+        # in multiple shapes depending on model and mode.
+        content = message.content
+        if isinstance(content, str) and content.strip():
+            return content
+
+        if isinstance(content, list):
+            parts = []
+            for part in content:
+                text = None
+                if isinstance(part, dict):
+                    text = part.get("text")
+                else:
+                    text = getattr(part, "text", None)
+
+                if text and str(text).strip():
+                    parts.append(str(text))
+
+            joined_content = "".join(parts).strip()
+            if joined_content:
+                return joined_content
+
+        reasoning_content = getattr(message, "reasoning_content", None)
+        if isinstance(reasoning_content, str) and reasoning_content.strip():
+            return reasoning_content
+
+        reasoning = getattr(message, "reasoning", None)
+        if isinstance(reasoning, str) and reasoning.strip():
+            return reasoning
+
+        self.logger.error("Generation response was empty")
+        return None
 
     def embed_text(self, text: str, document_type: str = None):
 
