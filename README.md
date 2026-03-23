@@ -71,3 +71,22 @@ python -m uvicorn main:app --reload --host 0.0.0.0 --port 5000
 ```bash
 export PS1="\[\033[1;32m\]\u@\h:\w\$\[\033[0m\]\$ "
 ```
+
+## Alembic Migrations
+
+### Configuration
+
+1. Ensure that the `alembic.ini` file is properly configured with your database connection URL.
+
+2. To create a new migration after modifying the database schema, run:
+
+   ```bash
+   alembic revision --autogenerate -m "Your migration message"
+
+   ```
+
+3. To apply the migrations to the database, run:
+
+   ```bash
+   alembic upgrade head
+   ```
