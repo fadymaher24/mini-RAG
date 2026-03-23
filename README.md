@@ -65,3 +65,9 @@ docker compose up -d
 ```bash
 python -m uvicorn main:app --reload --host 0.0.0.0 --port 5000
 ```
+
+## (Optional) Setup your command line interface for better reliability
+
+```bash
+export PS1="\[\033[1;32m\]\u@\h:\w\$\[\033[0m\]\$ "
+```

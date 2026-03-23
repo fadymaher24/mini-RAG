@@ -17,14 +17,12 @@ class Settings(BaseSettings):
     FILE_MAX_SIZE: int = 10
     FILE_DEFAULT_CHUNK_SIZE: int = 512000
 
-    MONGODB_URL: str = Field(
-        default="mongodb://localhost:27007",
-        validation_alias=AliasChoices("MONGODB_URL", "MONGO_DB_URL"),
-    )
-    MONGODB_DATABASE: str = Field(
-        default="mini_rag",
-        validation_alias=AliasChoices("MONGODB_DATABASE", "MONGO_DB_NAME"),
-    )
+    POSTGRES_USERNAME: str = None
+    POSTGRES_PASSWORD: str = None
+    POSTGRES_MAIN_DATABASE: str = None
+    POSTGRES_HOST: str = None
+    POSTGRES_PORT: int = None
+     
 
     GENERATION_BACKEND: str = "OPENAI"
     EMBEDDING_BACKEND: str = "OPENAI"
