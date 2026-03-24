@@ -1,6 +1,5 @@
 files
 database
 
-# Ignore all files in the assets directory
-lebanon
-syria
+# Ignore all .txt files in the assets directory
+*.txt
