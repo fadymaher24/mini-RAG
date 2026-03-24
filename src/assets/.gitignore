@@ -1,2 +1,6 @@
 files
 database
+
+# Ignore all files in the assets directory
+lebanon
+syria

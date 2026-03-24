@@ -11,20 +11,20 @@ class DistanceMethodEnums(Enum):
     DOT = "dot"
 
 
-class pgVectorTableSchemeEnums(Enum):
+class PgVectorTableSchemeEnums(Enum):
     ID = "id"
-    Text = "text"
+    TEXT = "text"
     VECTOR = "vector"
-    Chunk_ID = "chunk_id"
+    CHUNK_ID = "chunk_id"
     METADATA = "metadata"
     _PREFIX = "pgvector"
 
 
-class pgVectorDistanceMethodEnums(Enum):
+class PgVectorDistanceMethodEnums(Enum):
     COSINE = "vector_cosine_ops"
     DOT = "vector_l2_ops"
 
 
-class pgVectorIndexTypeEnums(Enum):
-    HNSW = "HNSW"
-    IVFFLAT = "IVFFLAT"
+class PgVectorIndexTypeEnums(Enum):
+    HNSW = "hnsw"
+    IVFFLAT = "ivfflat"

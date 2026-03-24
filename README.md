@@ -11,14 +11,14 @@ mini RAG System is a Retrieval-Augmented Generation (RAG) system designed to ass
 1. Clone the repository:
 
    ```bash
-   git clone https://github.com/fadymaher24/lawyer-rag-system.git
+   git clone https://github.com/fadymaher24/mini-RAG.git
    ```
 
 2. Navigate to the project directory:
 
    ```bash
 
-   cd lawyer-rag-system
+   cd mini-RAG
    ```
 
 3. Install the required dependencies:

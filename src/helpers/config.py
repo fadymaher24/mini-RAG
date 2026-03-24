@@ -30,7 +30,7 @@ class Settings(BaseSettings):
     OPENAI_API_URL: str = None
     COHERE_API_KEY: str = None
 
-    GENERATION_MODEL_ID_LITERALS: List[str] = None
+    GENERATION_MODEL_ID_LITERALS: List[str] = ["gpt-3.5-turbo", "gpt-4", "qwen3:8b"]
     GENERATION_MODEL_ID: str = None
     EMBEDDING_MODEL_ID: str = None
     EMBEDDING_MODEL_SIZE: int = None
@@ -38,7 +38,7 @@ class Settings(BaseSettings):
     GENERATION_DAFAULT_MAX_TOKENS: int = None
     GENERATION_DAFAULT_TEMPERATURE: float = None
 
-    VECTOR_DB_BACKEND_LITERALS: List[str] = None
+    VECTOR_DB_BACKEND_LITERALS: List[str] = ["QDRANT", "PGVECTOR"]
     VECTOR_DB_BACKEND: str = "QDRANT"
     VECTOR_DB_PATH: str = "qdrant_db"
     VECTOR_DB_DISTANCE_METHOD: str = "cosine"
