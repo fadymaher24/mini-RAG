@@ -31,7 +31,7 @@ class ChunkModel(BaseDataModel):
 
         async with self.db_client() as session:
             result = await session.execute(
-                select(DataChunk).where(DataChunk.chunk_id == chunk_id)
+                select(DataChunk).where(DataChunk.datachunk_id == chunk_id)
             )
             chunk = result.scalar_one_or_none()
         return chunk

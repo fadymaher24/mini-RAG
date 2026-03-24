@@ -11,7 +11,7 @@ class DataChunk(SQLAlchemyBase):
 
     __tablename__ = "chunks"
 
-    chunk_id = Column(Integer, primary_key=True, autoincrement=True)
+    datachunk_id = Column(Integer, primary_key=True, autoincrement=True)
     chunk_uuid = Column(
         UUID(as_uuid=True), default=uuid.uuid4, unique=True, nullable=False
     )
