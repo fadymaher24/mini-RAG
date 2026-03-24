@@ -11,22 +11,13 @@ class Project(SQLAlchemyBase):
 
     project_id = Column(Integer, primary_key=True, autoincrement=True)
     project_uuid = Column(
-        UUID(as_uuid=True),
-        unique=True,
-        nullable=False,
-        default=uuid.uuid4,
+        UUID(as_uuid=True), default=uuid.uuid4, unique=True, nullable=False
     )
 
     created_at = Column(
-        DateTime(timezone=True),
-        nullable=False,
-        server_default=func.now(),
+        DateTime(timezone=True), server_default=func.now(), nullable=False
     )
-    updated_at = Column(
-        DateTime(timezone=True),
-        nullable=True,
-        onupdate=func.now(),
-    )
+    updated_at = Column(DateTime(timezone=True), onupdate=func.now(), nullable=True)
 
     chunks = relationship("DataChunk", back_populates="project")
     assets = relationship("Asset", back_populates="project")
