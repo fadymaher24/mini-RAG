@@ -131,7 +131,7 @@ async def process_endpoint(
             },
         )
 
-    process_controller = ProcessController(project_id=project.project_id)
+    process_controller = ProcessController(project_id=project_id)
 
     no_records = 0
     no_files = 0
