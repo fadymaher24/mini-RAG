@@ -14,7 +14,6 @@ class ProjectModel(BaseDataModel):
     @classmethod
     async def create_instance(cls, db_client: object):
         instance = cls(db_client)
-        await instance.init_collection()
         return instance
 
     async def create_project(self, project: Project):
@@ -32,10 +31,11 @@ class ProjectModel(BaseDataModel):
         async with self.db_client() as session:
             async with session.begin():
                 query = select(Project).where(Project.project_id == project_id)
-                project = query.scalar_one_or_none()
+                result = await session.execute(query)
+                project = result.scalar_one_or_none()
                 if project is None:
                     project_rec = Project(project_id=project_id)
-                    project = self.create_project(project=project_rec)
+                    project = await self.create_project(project=project_rec)
                     return project
                 else:
                     return project
@@ -45,7 +45,7 @@ class ProjectModel(BaseDataModel):
         async with self.db_client() as session:
             async with session.begin():
 
-                total_documents = await session.excute(
+                total_documents = await session.execute(
                     select(func.count(Project.project_id))
                 ).scalar_one()
 
@@ -54,5 +54,5 @@ class ProjectModel(BaseDataModel):
                     total_pages += 1
 
                 query = select(Project).offset((page - 1) * page_size).limit(page_size)
-                projects = await session.excute(query).scalars().all()
+                projects = await session.execute(query).scalars().all()
         return projects, total_pages
