@@ -1,5 +1,6 @@
 from pydantic import AliasChoices, Field
 from pydantic_settings import BaseSettings, SettingsConfigDict
+from typing import List
 
 
 class Settings(BaseSettings):
@@ -22,7 +23,6 @@ class Settings(BaseSettings):
     POSTGRES_MAIN_DATABASE: str = None
     POSTGRES_HOST: str = None
     POSTGRES_PORT: int = None
-     
 
     GENERATION_BACKEND: str = "OPENAI"
     EMBEDDING_BACKEND: str = "OPENAI"
@@ -30,6 +30,7 @@ class Settings(BaseSettings):
     OPENAI_API_URL: str = None
     COHERE_API_KEY: str = None
 
+    GENERATION_MODEL_ID_LITERALS: List[str] = None
     GENERATION_MODEL_ID: str = None
     EMBEDDING_MODEL_ID: str = None
     EMBEDDING_MODEL_SIZE: int = None
@@ -37,9 +38,11 @@ class Settings(BaseSettings):
     GENERATION_DAFAULT_MAX_TOKENS: int = None
     GENERATION_DAFAULT_TEMPERATURE: float = None
 
+    VECTOR_DB_BACKEND_LITERALS: List[str] = None
     VECTOR_DB_BACKEND: str = "QDRANT"
     VECTOR_DB_PATH: str = "qdrant_db"
     VECTOR_DB_DISTANCE_METHOD: str = "cosine"
+    VECTOR_DB_PGVEC_INDEX_THRESHOLD: int = 100
 
     DEFAULT_LANG: str = "en"
     PRIMARY_LANG: str = "en"

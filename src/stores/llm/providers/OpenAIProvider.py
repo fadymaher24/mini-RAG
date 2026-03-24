@@ -2,6 +2,7 @@ from ..LLMInterface import LLMInterface
 from ..LLMEnums import OpenAIEnums
 from openai import OpenAI
 import logging
+from typing import List, Union
 
 
 class OpenAIProvider(LLMInterface):
@@ -74,16 +75,12 @@ class OpenAIProvider(LLMInterface):
             self.construct_prompt(prompt=prompt, role=OpenAIEnums.USER.value)
         )
 
-        try:
-            response = self.client.chat.completions.create(
-                model=self.generation_model_id,
-                messages=chat_history,
-                max_tokens=max_output_tokens,
-                temperature=temperature,
-            )
-        except Exception as e:
-            self.logger.error(f"Error while generating text with OpenAI: {e}")
-            return None
+        response = self.client.chat.completions.create(
+            model=self.generation_model_id,
+            messages=chat_history,
+            max_tokens=max_output_tokens,
+            temperature=temperature,
+        )
 
         if (
             not response
@@ -94,46 +91,16 @@ class OpenAIProvider(LLMInterface):
             self.logger.error("Error while generating text with OpenAI")
             return None
 
-        message = response.choices[0].message
+        return response.choices[0].message.content
 
-        # OpenAI-compatible providers (for example Ollama) can return content
-        # in multiple shapes depending on model and mode.
-        content = message.content
-        if isinstance(content, str) and content.strip():
-            return content
-
-        if isinstance(content, list):
-            parts = []
-            for part in content:
-                text = None
-                if isinstance(part, dict):
-                    text = part.get("text")
-                else:
-                    text = getattr(part, "text", None)
-
-                if text and str(text).strip():
-                    parts.append(str(text))
-
-            joined_content = "".join(parts).strip()
-            if joined_content:
-                return joined_content
-
-        reasoning_content = getattr(message, "reasoning_content", None)
-        if isinstance(reasoning_content, str) and reasoning_content.strip():
-            return reasoning_content
-
-        reasoning = getattr(message, "reasoning", None)
-        if isinstance(reasoning, str) and reasoning.strip():
-            return reasoning
-
-        self.logger.error("Generation response was empty")
-        return None
-
-    def embed_text(self, text: str, document_type: str = None):
+    def embed_text(self, text: Union[str, List[str]], document_type: str = None):
 
         if not self.client:
             self.logger.error("OpenAI client was not set")
             return None
+
+        if isinstance(text, str):
+            text = [text]
 
         if not self.embedding_model_id:
             self.logger.error("Embedding model for OpenAI was not set")
@@ -153,7 +120,10 @@ class OpenAIProvider(LLMInterface):
             self.logger.error("Error while embedding text with OpenAI")
             return None
 
-        return response.data[0].embedding
+        return [rec.embedding for rec in response.data]
 
     def construct_prompt(self, prompt: str, role: str):
-        return {"role": role, "content": self.process_text(prompt)}
+        return {
+            "role": role,
+            "content": prompt,
+        }

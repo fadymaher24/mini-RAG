@@ -27,11 +27,11 @@ class ChunkModel(BaseDataModel):
             await session.refresh(chunk)
         return chunk
 
-    async def get_chunk(self, chunk_id: str):
+    async def get_chunk(self, chunk_id: int):
 
         async with self.db_client() as session:
             result = await session.execute(
-                select(DataChunk).where(DataChunk.datachunk_id == chunk_id)
+                select(DataChunk).where(DataChunk.chunk_id == chunk_id)
             )
             chunk = result.scalar_one_or_none()
         return chunk
@@ -53,7 +53,7 @@ class ChunkModel(BaseDataModel):
             await session.commit()
         return result.rowcount
 
-    async def get_poject_chunks(
+    async def get_project_chunks(
         self, project_id: ObjectId, page_no: int = 1, page_size: int = 50
     ):
         async with self.db_client() as session:
