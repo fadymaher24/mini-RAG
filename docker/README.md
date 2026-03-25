@@ -12,6 +12,8 @@ This directory contains the Docker setup for the MiniRAG application, including 
 - **Prometheus**: Metrics collection
 - **Grafana**: Visualization dashboard for metrics
 - **Node-Exporter**: System metrics collection
+- **Loki**: Log aggregation backend
+- **Promtail**: Log shipper from Docker containers to Loki
 
 ## Setup Instructions
 
@@ -69,6 +71,7 @@ docker compose down -v --remove-orphans
 - Nginx (serving FastAPI): http://localhost
 - Prometheus: http://localhost:9090
 - Grafana: http://localhost:3000
+- Loki: http://localhost:3100
 - Qdrant UI: http://localhost:6333/dashboard
 
 ## Volume Management
@@ -142,8 +145,7 @@ Prometheus is configured to scrape these metrics automatically.
 ### Visualizing Metrics in Grafana
 
 1. Log into Grafana at http://localhost:3000 (default credentials: admin/admin_password)
-2. Add Prometheus as a data source (URL: http://prometheus:9090)
-3. Import dashboards for FastAPI, PostgreSQL, and Qdrant
+2. Prometheus and Loki data sources are auto-provisioned.
 
 #### Dashboards URLs
 
@@ -151,7 +153,7 @@ https://grafana.com/grafana/dashboards/18739-fastapi-observability/
 
 https://grafana.com/grafana/dashboards/1860-node-exporter-full/
 
-https://grafana.com/grafana/dashboards/23033-qdrant/
+https://grafana.com/grafana/dashboards/24074-qdrant/
 
 https://grafana.com/grafana/dashboards/12485-postgresql-exporter/
 
