@@ -2,7 +2,6 @@ APP_NAME="MINI-RAG"
 APP_VERSION="0.1"
 APP_DESCRIPTION="A Retrieval-Augmented Generation (RAG) system for legal document analysis and question answering."
 APP_AUTHOR="Fady Maher"
-OPENAI_API_KEY="your_openai_api_key_here"
  
 FILE_ALLOWED_TYPES=["application/pdf", "text/plain"]
 FILE_MAX_SIZE=10
