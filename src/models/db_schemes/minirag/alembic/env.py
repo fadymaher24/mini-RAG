@@ -1,4 +1,5 @@
 from logging.config import fileConfig
+import os
 
 from sqlalchemy import engine_from_config
 from sqlalchemy import pool
@@ -25,6 +26,26 @@ target_metadata = SQLAlchemyBase.metadata
 # can be acquired:
 # my_important_option = config.get_main_option("my_important_option")
 # ... etc.
+
+
+def _build_db_url_from_env() -> str | None:
+    """Build a PostgreSQL URL from runtime env vars when available."""
+    user = os.getenv("POSTGRES_USERNAME") or os.getenv("POSTGRES_USER")
+    password = os.getenv("POSTGRES_PASSWORD")
+    host = os.getenv("POSTGRES_HOST")
+    port = os.getenv("POSTGRES_PORT")
+    database = os.getenv("POSTGRES_MAIN_DATABASE") or os.getenv("POSTGRES_DB")
+
+    if all([user, password, host, port, database]):
+        return f"postgresql://{user}:{password}@{host}:{port}/{database}"
+
+    return None
+
+
+db_url = _build_db_url_from_env()
+if db_url:
+    # Prefer runtime env vars inside containers over hardcoded ini values.
+    config.set_main_option("sqlalchemy.url", db_url)
 
 
 def run_migrations_offline() -> None:
