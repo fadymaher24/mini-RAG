@@ -38,7 +38,7 @@ services :
     image: pgvector/pgvector:pg18-trixie
     container_name: pgvector
     ports:
-      - '5432:5432'
+      - '5400:5432'
     volumes:
       - pgvector_data:/var/lib/postgresql
     env_file:
@@ -170,7 +170,46 @@ services :
       - backend
     depends_on:
       - pgvector
-    restart: always 
+    restart: always
+
+  rabbitmq:
+    image: rabbitmq:4.2.5-management-alpine
+    container_name: rabbitmq
+    ports:
+      - '5672:5672' # AMQP port
+      - '15672:15672' # Management UI port
+    volumes:
+      - rabbitmq_data:/var/lib/rabbitmq
+      - ./rabbitmq/rabbitmq.conf:/etc/rabbitmq/rabbitmq.conf
+    env_file:
+      - ./env/.env.rabbitmq
+    networks:
+      - backend
+    restart: always
+    healthcheck:
+      test: ["CMD-SHELL", "rabbitmq-diagnostics -q ping || exit 1"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+  
+  redis:
+    image: redis:8.6.2-alpine
+    container_name: redis
+    ports:
+      - '6379:6379'
+    volumes:
+      - redis_data:/data
+    env_file:
+      - ./env/.env.redis
+    networks: 
+      - backend
+    restart: always
+    healthcheck:
+      test: ["CMD", "redis-cli", "ping"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+    command: ["redis-server", "--appendonly", "yes","--requirepass", "${REDIS_PASSWORD:-minirag_redis_2026}"]
 
 networks:
   backend:
@@ -184,3 +223,5 @@ volumes:
   grafana_data:
   loki_data:
   promtail_data:
+  rabbitmq_data:
+  redis_data:

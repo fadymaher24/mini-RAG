@@ -144,6 +144,11 @@ Prometheus is configured to scrape these metrics automatically.
 
 ### Visualizing Metrics in Grafana
 
+#### configure Data Sources
+
+http://prometheus:9090 and http://loki:3100
+
+
 1. Log into Grafana at http://localhost:3000 (default credentials: admin/admin_password)
 2. Prometheus and Loki data sources are auto-provisioned.
 
